@@ -41,6 +41,7 @@ prompt_toolkit==3.0.47
 psutil==6.0.0
 psycopg2==2.9.9
 pure-eval==0.2.2
+pydantic==2.8.0
 pydantic_core==2.20.0
 Pygments==2.18.0
 PyMySQL==1.1.1
@@ -48,7 +49,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-multipart==0.0.9
 pytz==2024.1
-pywin32==306
 PyYAML==6.0.1
 pyzmq==26.0.3
 rich==13.7.1
