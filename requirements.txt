@@ -41,7 +41,6 @@ prompt_toolkit==3.0.47
 psutil==6.0.0
 psycopg2==2.9.9
 pure-eval==0.2.2
-pydantic==2.8.0
 pydantic_core==2.20.0
 Pygments==2.18.0
 PyMySQL==1.1.1
