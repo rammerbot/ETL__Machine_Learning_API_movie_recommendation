@@ -1,13 +1,10 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from models import *
-from querys import (prueba, obtener_cantidad_peliculas_por_mes, obtener_cantidad_peliculas_por_dia, 
+from fastapi import FastAPI
+from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_peliculas_por_dia, 
                     consultar_pelicula_por_titulo, consultar_pelicula_por_titulo, obtener_exito_actor,
                     obtener_exito_director
                     )
 
 app = FastAPI()
-
     
 app.title = "Movie Reccomendation - Machine Learning"
 app.version = "1.0 Alfa"
@@ -15,8 +12,8 @@ app.version = "1.0 Alfa"
 # Url de Bienvenida
 @app.get("/", tags=['Home'])
 def home():
-    title = prueba()
-    return {'message': title}
+    
+    return {'message': 'Bienvenido'}
 
 # Vista de cantidad de filmaciones mes
 @app.get("/cant_mes/", tags=['Search'])
@@ -53,4 +50,3 @@ def get_actor(actor:str):
 def get_director(director:str):
     director = obtener_exito_director(director)
     return director
-    
