@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_peliculas_por_dia, 
                     consultar_pelicula_por_titulo, consultar_pelicula_por_titulo, obtener_exito_actor,
                     obtener_exito_director
@@ -9,6 +10,15 @@ app = FastAPI()
     
 app.title = "Movie Reccomendation - Machine Learning"
 app.version = "1.0 Alfa"
+
+# Configurar middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todas las solicitudes desde cualquier origen
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, PUT, etc.)
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
 
 # Url de Bienvenida
 @app.get("/", tags=['Home'])
@@ -48,5 +58,11 @@ def get_actor(actor:str):
 # Vista de cantidad de filmaciones mes
 @app.get("/get_director/", tags=['Search'])
 def get_director(director:str):
+    director = obtener_exito_director(director)
+    return director
+
+# Recomendar peliculas
+@app.get("/recommender/", tags=['Search'])
+def recommender(director:str):
     director = obtener_exito_director(director)
     return director
