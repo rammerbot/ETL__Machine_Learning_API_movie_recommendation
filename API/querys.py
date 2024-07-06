@@ -42,7 +42,7 @@ def obtener_cantidad_peliculas_por_dia(nombre_dia: str):
     return JSONResponse(content={'message': f'{cantidad_peliculas} cantidad de películas fueron estrenadas en día {nombre_dia.capitalize()}'})
 
 
-# Realizar la consulta filtrando por el título de la película
+#Realizar la consulta filtrando por el título de la película
 def consultar_pelicula_por_titulo(titulo: str):
     try:
         pelicula = session.query(Movie).filter(Movie.title == titulo.lower()).first()
@@ -57,6 +57,8 @@ def consultar_pelicula_por_titulo(titulo: str):
             raise HTTPException(status_code=404, detail=f"Película {titulo.capitalize()} no se encuentra en nuestra base de datos")
     except:
         raise HTTPException(status_code=404, detail=f"Película {titulo.capitalize()} no se encuentra en nuestra base de datos")
+
+
     
 
 # Realizar la consulta filtrando por el título de la película

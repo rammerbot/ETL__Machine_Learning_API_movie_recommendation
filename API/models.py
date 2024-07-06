@@ -13,24 +13,20 @@ class Movie(Base):
 
     budget = Column(Float)
     movie_id = Column(INTEGER, primary_key=True)
-    original_title = Column(String)
     overview = Column(String)
     popularity = Column(INTEGER)
     release_date = Column(DateTime)
     revenue = Column(Float)
     runtime = Column(Float)
-    status = Column(String)
     title = Column(String)
     vote_average = Column(Float)
     vote_count = Column(Float)
     genres_clean = Column(String)
-    collection_clean = Column(String)
     production_companies_clean = Column(String)
     production_countries_clean = Column(String)
-    spoken_languages_clean = Column(String)
     retorno_de_inversion = Column(Float)
     release_year = Column(INTEGER)
-    director_id = Column(Integer, ForeignKey('director.director_id'))
+    director_id = Column(Integer, ForeignKey('unique_directors.director_id'))
     director = relationship('Director', back_populates='movies')
     actors = relationship('Actor', secondary='movie_actor', back_populates='movies')
 
@@ -42,7 +38,7 @@ class Actor(Base):
     movies = relationship('Movie', secondary='movie_actor', back_populates='actors')
 
 class Director(Base):
-    __tablename__ = 'director'
+    __tablename__ = 'unique_directors'
 
     director_id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -63,3 +59,5 @@ session = Session()
 
 Session = sessionmaker(engine)
 session = Session()
+
+

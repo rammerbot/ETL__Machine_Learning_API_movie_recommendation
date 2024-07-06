@@ -5,6 +5,7 @@ from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_pelicul
                     )
 
 app = FastAPI()
+
     
 app.title = "Movie Reccomendation - Machine Learning"
 app.version = "1.0 Alfa"
@@ -12,7 +13,6 @@ app.version = "1.0 Alfa"
 # Url de Bienvenida
 @app.get("/", tags=['Home'])
 def home():
-    
     return {'message': 'Bienvenido'}
 
 # Vista de cantidad de filmaciones mes
