@@ -20,9 +20,42 @@ from models import engine
 # Cargar datos a Dataframe.
 data = pd.read_sql('machine_learning', engine)
 
-# Vectorizar la columna combinada usando TF-IDF
-vectorizer = TfidfVectorizer(max_features=31000)  # Ajusta max_features según tus necesidades
-combined_tfidf_matrix = vectorizer.fit_transform(data['combined_text'])
+# Descargar recursos necesarios de nltk
+# nltk.download('punkt')
+# nltk.download('stopwords')
+
+# # Preprocesar texto
+# stop_words = set(stopwords.words('english'))
+
+# def preprocess(text):
+#     if pd.isna(text):
+#         return ""
+#     text = text.lower()
+#     words = word_tokenize(text)
+#     words = [word for word in words if word.isalnum() and word not in stop_words]
+#     return ' '.join(words)
+
+
+# # Definir las columnas a procesar
+columns_to_preprocess = ['title', 'production_companies_clean', 'production_countries_clean', 'genres_clean', 'overview', 'name']
+
+# # Aplicar preprocesamiento a cada columna y mantener las palabras procesadas en columnas individuales
+# for column in columns_to_preprocess:
+#     data[f'processed_{column}'] = data[column].apply(preprocess)
+
+
+# Vectorizar cada columna procesada usando TF-IDF
+tfidf_vectorizers = {}
+tfidf_matrices = []
+
+for column in columns_to_preprocess:
+    vectorizer = TfidfVectorizer(max_features=5000)
+    tfidf_matrix = vectorizer.fit_transform(data[f'processed_{column}'])
+    tfidf_vectorizers[column] = vectorizer
+    tfidf_matrices.append(tfidf_matrix)
+
+# Combinar todas las matrices TF-IDF en una sola matriz si es necesario
+combined_tfidf_matrix = hstack(tfidf_matrices).tocsr() if len(tfidf_matrices) > 1 else tfidf_matrices[0]
 
 # Calcular la similitud del coseno bajo demanda
 def calculate_cosine_similarity(idx, matrix):

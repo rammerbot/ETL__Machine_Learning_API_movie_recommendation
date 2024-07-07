@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, INTEGER, D
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 
+
 #engine = create_engine('mysql+pymysql://root:root@localhost/movies')
 engine = create_engine('sqlite:///data/movies.db')
 

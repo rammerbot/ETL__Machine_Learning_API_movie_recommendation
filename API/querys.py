@@ -4,6 +4,7 @@ from sqlalchemy import func, extract
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from ml import get_recommendations, data
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Obtener peliculas estrenadas un
 def obtener_cantidad_peliculas_por_mes(nombre_mes):
@@ -132,7 +133,7 @@ def obtener_exito_director(nombre: str):
 
 # Sistema de Recomendacion
 def recommender(movie: str):
-    title = movie
+    title = movie.lower()
     recommendations = get_recommendations(title, data)
     return {
         'message': f"Recomendaciones para '{title}':\n",
