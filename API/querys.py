@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import func, extract
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
-from ml import get_recommendations, cosine_similarities, data
+from ml import get_recommendations, data
 
 # Obtener peliculas estrenadas un
 def obtener_cantidad_peliculas_por_mes(nombre_mes):
@@ -131,11 +131,10 @@ def obtener_exito_director(nombre: str):
 
 
 # Sistema de Recomendacion
-def recommender(movie:str):
-    # Ejemplo de uso: obtener recomendaciones para una película dada
-    title = movie  # Cambia esto por el título de la película que desees
-    recommendations = get_recommendations(title, cosine_similarities,data)
+def recommender(movie: str):
+    title = movie
+    recommendations = get_recommendations(title, data)
     return {
-        'message':f"Recomendaciones para '{title}':\n", 
-        'recommendations':recommendations
-        }
+        'message': f"Recomendaciones para '{title}':\n",
+        'recommendations': recommendations
+    }
