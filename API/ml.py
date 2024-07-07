@@ -65,7 +65,7 @@ def get_recommendations(title, data, top_n=5):
     if title not in data['title'].values:
         return f"La película '{title}' no se encuentra en la base de datos."
     
-    idx = data[data['title'] == title.lower()].index[0]
+    idx = data[data['title'] == title].index[0]
     sim_scores = calculate_cosine_similarity(idx, combined_tfidf_matrix)
     
     sim_scores = list(enumerate(sim_scores))

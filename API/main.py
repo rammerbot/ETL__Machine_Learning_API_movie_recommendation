@@ -64,5 +64,6 @@ def get_director(director:str):
 # Recomendar peliculas
 @app.get("/recommender/", tags=['Search'])
 def recomendacion(titulo:str):
+    titulo = titulo.lower()
     recomendacion = recommender(titulo)
     return recomendacion

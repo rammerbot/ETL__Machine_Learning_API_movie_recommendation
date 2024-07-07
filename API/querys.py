@@ -134,7 +134,7 @@ def obtener_exito_director(nombre: str):
 # Sistema de Recomendacion
 def recommender(movie: str):
     title = movie
-    recommendations = get_recommendations(title.lower(), data)
+    recommendations = get_recommendations(title, data)
     return {
         'message': f"Recomendaciones para '{title}':\n",
         'recommendations': recommendations
