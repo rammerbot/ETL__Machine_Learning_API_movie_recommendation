@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_peliculas_por_dia, 
                     consultar_pelicula_por_titulo, consultar_pelicula_por_titulo, obtener_exito_actor,
-                    obtener_exito_director
+                    obtener_exito_director, recommender
                     )
 
 app = FastAPI()
@@ -63,6 +63,6 @@ def get_director(director:str):
 
 # Recomendar peliculas
 @app.get("/recommender/", tags=['Search'])
-def recommender(director:str):
-    
-    return None
+def recomendacion(titulo:str):
+    recomendacion = recommender(titulo)
+    return recomendacion
