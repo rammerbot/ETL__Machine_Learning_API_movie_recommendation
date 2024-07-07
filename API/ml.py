@@ -62,7 +62,7 @@ def calculate_cosine_similarity(idx, matrix):
     return cosine_similarity(matrix[idx], matrix).flatten()
 
 def get_recommendations(title, data, top_n=5):
-    if title.lower() not in data['title'].values:
+    if title not in data['title'].values:
         return f"La película '{title}' no se encuentra en la base de datos."
     
     idx = data[data['title'] == title.lower()].index[0]
