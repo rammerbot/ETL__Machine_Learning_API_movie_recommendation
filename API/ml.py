@@ -49,7 +49,7 @@ tfidf_vectorizers = {}
 tfidf_matrices = []
 
 for column in columns_to_preprocess:
-    vectorizer = TfidfVectorizer(max_features=5000)
+    vectorizer = TfidfVectorizer(max_features=31000)
     tfidf_matrix = vectorizer.fit_transform(data[f'processed_{column}'])
     tfidf_vectorizers[column] = vectorizer
     tfidf_matrices.append(tfidf_matrix)
