@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 # importar pandas.
 import pandas as pd
 
-# Import desde models
+# Import desde models.
 from models import engine
 
 #engine = create_engine('sqlite:///data/movies.db')
@@ -20,11 +20,14 @@ from models import engine
 # Cargar datos a Dataframe.
 data = pd.read_sql('machine_learning', engine)
 
-# Descargar recursos necesarios de nltk
+'''Las lineas comentadas a contiuacion pertenecen al preprocesamiento de los
+datos, la intencion es realizarlo una vez y guardar los datos, de esta manera se
+asegura que el consumo de recursos no sera afectado cada vez que se inicie el servidor'''
+# Descargar recursos necesarios de nltk.
 # nltk.download('punkt')
 # nltk.download('stopwords')
 
-# # Preprocesar texto
+# # Preprocesar texto.
 # stop_words = set(stopwords.words('english'))
 
 # def preprocess(text):
@@ -35,32 +38,35 @@ data = pd.read_sql('machine_learning', engine)
 #     words = [word for word in words if word.isalnum() and word not in stop_words]
 #     return ' '.join(words)
 
-
-# # Definir las columnas a procesar
+# # Definir las columnas a procesar.
 columns_to_preprocess = ['title', 'production_companies_clean', 'production_countries_clean', 'genres_clean', 'overview', 'name']
 
-# # Aplicar preprocesamiento a cada columna y mantener las palabras procesadas en columnas individuales
+# # Aplicar preprocesamiento a cada columna y mantener las palabras procesadas en columnas individuales.
 # for column in columns_to_preprocess:
 #     data[f'processed_{column}'] = data[column].apply(preprocess)
 
+## Guardar en base de datos.
+# data.to_sql('machine_learning', engine, if_exists='replace')
 
-# Vectorizar cada columna procesada usando TF-IDF
+# Vectorizar cada columna procesada usando TF-IDF.
 tfidf_vectorizers = {}
 tfidf_matrices = []
 
+# Vectorizar los datos con Tfid.
 for column in columns_to_preprocess:
     vectorizer = TfidfVectorizer(max_features=31000)
     tfidf_matrix = vectorizer.fit_transform(data[f'processed_{column}'])
     tfidf_vectorizers[column] = vectorizer
     tfidf_matrices.append(tfidf_matrix)
 
-# Combinar todas las matrices TF-IDF en una sola matriz si es necesario
+# Combinar todas las matrices TF-IDF en una sola matriz si es necesario.
 combined_tfidf_matrix = hstack(tfidf_matrices).tocsr() if len(tfidf_matrices) > 1 else tfidf_matrices[0]
 
-# Calcular la similitud del coseno bajo demanda
+# Calcular la similitud del coseno bajo demanda.
 def calculate_cosine_similarity(idx, matrix):
     return cosine_similarity(matrix[idx], matrix).flatten()
 
+# Obtener recomendacion.
 def get_recommendations(title, data, top_n=5):
     if title not in data['title'].values:
         return f"La película '{title}' no se encuentra en la base de datos."

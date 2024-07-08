@@ -5,13 +5,14 @@ from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_pelicul
                     obtener_exito_director, recommender
                     )
 
+# instancia de FastApi.
 app = FastAPI()
 
-    
+# Version y nombre de API.    
 app.title = "Movie Reccomendation - Machine Learning"
 app.version = "1.0 Alfa"
 
-# Configurar middleware CORS
+# Configurar middleware CORS.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Permitir todas las solicitudes desde cualquier origen
