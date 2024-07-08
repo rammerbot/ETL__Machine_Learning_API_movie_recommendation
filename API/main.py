@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from querys import (obtener_cantidad_peliculas_por_mes, obtener_cantidad_peliculas_por_dia, 
-                    consultar_pelicula_por_titulo, consultar_pelicula_por_titulo, obtener_exito_actor,
+                    consultar_pelicula_por_score, consultar_pelicula_por_titulo, obtener_exito_actor,
                     obtener_exito_director, recommender
                     )
 
@@ -39,26 +39,26 @@ def cantidad_filmaciones_dia(dia:str):
 
 # Vista de cantidad de filmaciones por score titulo
 @app.get("/score_titulo/", tags=['Search'])
-def score_titulo(movie:str):
-    pelicula = consultar_pelicula_por_titulo(movie)
+def score_titulo(titulo_de_la_filmación:str):
+    pelicula = consultar_pelicula_por_score(titulo_de_la_filmación)
     return pelicula
 
 # Vista de cantidad de filmaciones mes
 @app.get("/votos_titulo/", tags=['Search'])
-def votos_titulo(movie:str):
-    pelicula = consultar_pelicula_por_titulo(movie)
+def votos_titulo(titulo_de_la_filmación:str):
+    pelicula = consultar_pelicula_por_titulo(titulo_de_la_filmación)
     return pelicula
 
 # Vista de cantidad de filmaciones mes
 @app.get("/get_actor/", tags=['Search'])
-def get_actor(actor:str):
-    actor = obtener_exito_actor(actor)
+def get_actor(nombre_actor:str):
+    actor = obtener_exito_actor(nombre_actor)
     return actor
 
 # Vista de cantidad de filmaciones mes
 @app.get("/get_director/", tags=['Search'])
-def get_director(director:str):
-    director = obtener_exito_director(director)
+def get_director(nombre_director:str):
+    director = obtener_exito_director(nombre_director)
     return director
 
 # Recomendar peliculas

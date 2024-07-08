@@ -41,27 +41,23 @@ def obtener_cantidad_peliculas_por_dia(nombre_dia: str):
     # Utilizar strftime('%w', ...) para obtener el día de la semana en SQLite
     cantidad_peliculas = session.query(func.count(Movie.movie_id)).filter(func.strftime('%w', Movie.release_date) == str(numero_dia)).scalar()
 
-    return JSONResponse(content={'message': f'{cantidad_peliculas} cantidad de películas fueron estrenadas en día {nombre_dia.capitalize()}'})
+    return JSONResponse(content={'message': f'{cantidad_peliculas} cantidad de películas fueron estrenadas en los día {nombre_dia.capitalize()}'})
 
 
 #Realizar la consulta filtrando por el título de la película
-def consultar_pelicula_por_titulo(titulo: str):
+def consultar_pelicula_por_score(titulo: str):
     try:
         pelicula = session.query(Movie).filter(Movie.title == titulo.lower()).first()
         
         if pelicula:
             return {
-                'titulo': pelicula.title.capitalize(),
-                'año_estreno': pelicula.release_year,
-                'score': pelicula.vote_average
+                'message': f'La película {pelicula.title.capitalize()} fue estrenada en el año {pelicula.release_year} con un score/popularidad de {pelicula.vote_average}'
             }
         else:
             raise HTTPException(status_code=404, detail=f"Película {titulo.capitalize()} no se encuentra en nuestra base de datos")
     except:
         raise HTTPException(status_code=404, detail=f"Película {titulo.capitalize()} no se encuentra en nuestra base de datos")
 
-
-    
 
 # Realizar la consulta filtrando por el título de la película
 def consultar_pelicula_por_titulo(titulo: str):
@@ -135,7 +131,5 @@ def obtener_exito_director(nombre: str):
 def recommender(movie: str):
     title = movie
     recommendations = get_recommendations(title, data)
-    return {
-        'message': f"Recomendaciones para '{title}':\n",
-        'recommendations': recommendations
-    }
+    return recommendations
+   

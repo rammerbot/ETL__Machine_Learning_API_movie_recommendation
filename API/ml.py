@@ -73,5 +73,10 @@ def get_recommendations(title, data, top_n=5):
     
     sim_scores = sim_scores[1:top_n+1]
     movie_indices = [i[0] for i in sim_scores]
+    list_ = []
+    for i in data['title'].iloc[movie_indices]:
+        list_.append(i)
+
+    return list_
     
-    return data['title'].iloc[movie_indices]
+ 
