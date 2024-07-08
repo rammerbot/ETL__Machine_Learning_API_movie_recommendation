@@ -39,7 +39,7 @@ asegura que el consumo de recursos no sera afectado cada vez que se inicie el se
 #     return ' '.join(words)
 
 # # Definir las columnas a procesar.
-columns_to_preprocess = ['title', 'production_companies_clean', 'production_countries_clean', 'genres_clean', 'overview', 'name']
+columnas_a_procesar = ['title', 'production_companies_clean', 'production_countries_clean', 'genres_clean', 'overview', 'name']
 
 # # Aplicar preprocesamiento a cada columna y mantener las palabras procesadas en columnas individuales.
 # for column in columns_to_preprocess:
@@ -49,40 +49,38 @@ columns_to_preprocess = ['title', 'production_companies_clean', 'production_coun
 # data.to_sql('machine_learning', engine, if_exists='replace')
 
 # Vectorizar cada columna procesada usando TF-IDF.
-tfidf_vectorizers = {}
-tfidf_matrices = []
+dic_vectorizadores = {}
+list_matrices = []
 
 # Vectorizar los datos con Tfid.
-for column in columns_to_preprocess:
+for column in columnas_a_procesar:
     vectorizer = TfidfVectorizer(max_features=31000)
-    tfidf_matrix = vectorizer.fit_transform(data[f'processed_{column}'])
-    tfidf_vectorizers[column] = vectorizer
-    tfidf_matrices.append(tfidf_matrix)
+    matrizado = vectorizer.fit_transform(data[f'processed_{column}'])
+    dic_vectorizadores[column] = vectorizer
+    list_matrices.append(matrizado)
 
 # Combinar todas las matrices TF-IDF en una sola matriz si es necesario.
-combined_tfidf_matrix = hstack(tfidf_matrices).tocsr() if len(tfidf_matrices) > 1 else tfidf_matrices[0]
+combinacion_matrices = hstack(list_matrices).tocsr() if len(list_matrices) > 1 else list_matrices[0]
 
 # Calcular la similitud del coseno bajo demanda.
-def calculate_cosine_similarity(idx, matrix):
-    return cosine_similarity(matrix[idx], matrix).flatten()
+def calcular_similitud_coseno(indice_x, matrix):
+    return cosine_similarity(matrix[indice_x], matrix).flatten()
 
 # Obtener recomendacion.
 def get_recommendations(title, data, top_n=5):
     if title not in data['title'].values:
         return f"La película '{title}' no se encuentra en la base de datos."
     
-    idx = data[data['title'] == title].index[0]
-    sim_scores = calculate_cosine_similarity(idx, combined_tfidf_matrix)
+    indice_x = data[data['title'] == title].index[0]
+    resultados = calcular_similitud_coseno(indice_x, combinacion_matrices)
     
-    sim_scores = list(enumerate(sim_scores))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    resultados = list(enumerate(resultados))
+    resultados = sorted(resultados, key=lambda x: x[1], reverse=True)
     
-    sim_scores = sim_scores[1:top_n+1]
-    movie_indices = [i[0] for i in sim_scores]
-    list_ = []
-    for i in data['title'].iloc[movie_indices]:
-        list_.append(i)
+    resultados = resultados[1:top_n+1]
+    movie_indices = [i[0] for i in resultados]
+    return data['title'].iloc[movie_indices].tolist()
 
-    return list_
+   
     
  
