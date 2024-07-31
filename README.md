@@ -68,13 +68,13 @@ Se configuraron 6 endpoints que representan las consultas a realizarse:
 
 Una vez culminada la construccion de la API se procede a realizar un Deploy en Render.
 <br>
-API en render: [API_machine_learning](http://https://etl-machine-learning-api-movie.onrender.com/docs "API_machine_learning")
+API en render: [API_machine_learning](http://etl-machine-learning-api-movie.onrender.com/docs "API_machine_learning")
 ![image](https://github.com/rammerbot/ETL__Machine_Learning_API_movie_recommendation/assets/123994694/b3651ff4-ce85-45d9-a633-e2ccbdba1577)
 
 
 Adicionalmente se agrego un FrontEnd para visualizarla de manera mas dinamica y agradabe:
 <br>
-API_Front : [Front](http://https://movies-ght7.onrender.com/ "Front")
+API_Front : [Front](http://movies-ght7.onrender.com/ "Front")
 ![image](https://github.com/rammerbot/ETL__Machine_Learning_API_movie_recommendation/assets/123994694/2eb99b8a-e34c-46ec-bea3-cd84b07732c2)
 
 
